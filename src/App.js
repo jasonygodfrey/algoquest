@@ -11,6 +11,7 @@ function App() {
   const [algoActions, setAlgoActions] = useState([]);
   const [newArray, setNewArray] = useState(arrayData.newArray);
   const [target, setTarget] = useState(arrayData.target);
+  const [showTwoSumCode, setShowTwoSumCode] = useState(false); // Toggle state for showing TwoSum code
 
   // Function to generate array with valid target
   function generateArrayWithValidTarget() {
@@ -50,6 +51,7 @@ function App() {
   const handleActivate = async () => {
     setAlgoActions([]); // Clear previous actions
     setHighlighted([]); // Clear highlighted elements
+    setResult(''); // Clear previous result
 
     if (droppedItem === 'TwoSum') {
       const solution = await runTwoSum(newArray, target);
@@ -79,7 +81,7 @@ function App() {
         setHighlighted([map[complement], i]);
         setAlgoActions((prev) => [
           ...prev,
-          `Found complement: ${nums[map[complement]]} and ${nums[i]}.`
+          `Found complement: ${nums[map[complement]]} and ${nums[i]}.`,
         ]);
         await sleep(500);
         return [map[complement], i];
@@ -137,28 +139,64 @@ function App() {
                 {num}
               </div>
             ))}
-            <span className="refresh-icon" onClick={handleReset}>🔄</span>
+            <span className="refresh-icon" onClick={handleReset}>
+              🔄
+            </span>
           </div>
 
-          {/* Blank Box for Dropping Ability */}
-          <div className="drop-zone-container">
-            <div
-              className="drop-zone"
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-            >
-              {droppedItem ? `Dropped: ${droppedItem}` : 'Drop your ability here'}
+          {/* Boilerplate Code and Drop Zone */}
+          <div className="code-and-dropzone">
+            {/* Boilerplate Code */}
+            <div className="boilerplate-code">
+              <pre>
+{`class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:`}
+              </pre>
+            </div>
+
+            {/* Blank Box for Dropping Ability */}
+            <div className="drop-zone-container">
+              <div
+                className="drop-zone"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={handleDrop}
+              >
+                {droppedItem ? `Dropped: ${droppedItem}` : 'Drop your ability here'}
+              </div>
             </div>
           </div>
 
           {/* Draggable Ability Buttons */}
           <div className="draggable-container">
-            <div
-              className="draggable-item"
-              draggable
-              onDragStart={() => handleDragStart('TwoSum')}
-            >
-              TwoSum Spell
+            <div className="draggable-item" draggable onDragStart={() => handleDragStart('TwoSum')}>
+              <div>
+                TwoSum Spell
+              </div>
+              <button
+                className="expand-button"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent drag event
+                  setShowTwoSumCode(!showTwoSumCode);
+                }}
+              >
+                {showTwoSumCode ? 'Collapse' : 'Expand'}
+              </button>
+
+              {/* TwoSum Code Block */}
+              {showTwoSumCode && (
+                <div className="two-sum-code">
+                  <pre>
+{`def twoSum(nums, target):
+    map = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in map:
+            return [map[complement], i]
+        map[num] = i
+    return []`}
+                  </pre>
+                </div>
+              )}
             </div>
             <div
               className="draggable-item"
@@ -169,13 +207,12 @@ function App() {
             </div>
           </div>
 
-                    {/* Action Buttons */}
-                    {droppedItem && (
+          {/* Activate Button */}
+          {droppedItem && (
             <div className="action-buttons">
               <button className="activate-button" onClick={handleActivate}>
                 Activate
               </button>
-
             </div>
           )}
 
@@ -189,16 +226,14 @@ function App() {
             </ul>
           </div>
 
-
-
           {/* Result Display */}
           {result && <p className="result">{result}</p>}
 
-          {/* Button to go back to level selection */}
+          {/* Navigation Buttons */}
           <div className="navigation-buttons">
-          <button className="reset-button" onClick={handleReset}>
-                Reset Current Level
-              </button>
+            <button className="reset-button" onClick={handleReset}>
+              Reset Current Level
+            </button>
             <button className="back-button" onClick={() => setView('home')}>
               Back to Level Selection
             </button>

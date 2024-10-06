@@ -4,7 +4,6 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -29,6 +28,7 @@
   border-radius: 50%;
   color: #fff;
   padding: 1rem 2rem;
+ 
   font-size: 1.5rem;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
@@ -61,6 +61,7 @@
   gap: 10px;
   justify-content: center;
   margin-bottom: 20px;
+  align-items: center;
 }
 
 .array-square {
@@ -91,6 +92,28 @@
   transition: transform 0.5s ease-in-out;
 }
 
+/* Boilerplate Code and Drop Zone */
+.code-and-dropzone {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.boilerplate-code {
+  background-color: #0f3460;
+  color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: left;
+}
+
+.boilerplate-code pre {
+  margin: 0;
+}
+
 .drop-zone-container {
   display: flex;
   justify-content: center;
@@ -100,19 +123,19 @@
   background-color: #162447;
   border: 2px dashed #e94560;
   width: 300px;
-  height: 100px;
+  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
   border-radius: 10px;
-  margin: 20px 0;
 }
 
 .draggable-container {
   display: flex;
   justify-content: center;
   gap: 20px;
+  margin-bottom: 20px;
 }
 
 .draggable-item {
@@ -121,6 +144,49 @@
   padding: 10px 20px;
   border-radius: 10px;
   cursor: grab;
+}
+
+/* Expand Button Styles */
+.expand-button {
+  background-color: #162447;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.expand-button:hover {
+  background-color: #0f3460;
+  transform: scale(1.05);
+}
+
+.two-sum-code {
+  background-color: #0f3460;
+  color: #fff;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: left;
+  max-width: 400px;
+  margin-left: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.activate-button {
+  background-color: #e94560;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .algo-actions {
@@ -144,23 +210,6 @@
   border-radius: 5px;
 }
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.activate-button,
-.reset-button {
-  background-color: #e94560;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
 .result {
   margin-top: 20px;
   font-size: 1.2rem;
@@ -176,9 +225,15 @@
 }
 
 @keyframes dopamine {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .navigation-buttons {
@@ -188,6 +243,7 @@
   margin-top: 20px;
 }
 
+.reset-button,
 .back-button {
   background-color: #162447;
   color: #fff;
@@ -195,4 +251,8 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.reset-button {
+  background-color: #e94560;
 }
