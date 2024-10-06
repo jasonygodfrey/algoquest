@@ -80,6 +80,17 @@
   background-color: #e94560;
 }
 
+.refresh-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.refresh-icon:hover {
+  transform: rotate(360deg);
+  transition: transform 0.5s ease-in-out;
+}
+
 .drop-zone-container {
   display: flex;
   justify-content: center;

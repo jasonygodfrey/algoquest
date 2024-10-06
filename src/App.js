@@ -6,11 +6,28 @@ function App() {
   const [draggedItem, setDraggedItem] = useState(null);
   const [droppedItem, setDroppedItem] = useState(null);
   const [result, setResult] = useState('');
-  const initialArray = [2, 7, 11, 15, 16];
-  const [array, setArray] = useState(initialArray);
+  const [arrayData, setArrayData] = useState(generateArrayWithValidTarget());
   const [highlighted, setHighlighted] = useState([]);
   const [algoActions, setAlgoActions] = useState([]);
-  const target = 23;
+  const [newArray, setNewArray] = useState(arrayData.newArray);
+  const [target, setTarget] = useState(arrayData.target);
+
+  // Function to generate array with valid target
+  function generateArrayWithValidTarget() {
+    const arraySize = Math.floor(Math.random() * 6) + 5; // Random size between 5 and 10
+    const newArray = Array.from({ length: arraySize }, () => Math.floor(Math.random() * 50) + 1);
+
+    // Pick two random indices and create a valid target
+    const randomIndex1 = Math.floor(Math.random() * arraySize);
+    let randomIndex2;
+    do {
+      randomIndex2 = Math.floor(Math.random() * arraySize);
+    } while (randomIndex1 === randomIndex2); // Ensure the two indices are distinct
+
+    const target = newArray[randomIndex1] + newArray[randomIndex2];
+
+    return { newArray, target };
+  }
 
   const handleLevelClick = (level) => {
     if (level === 1) {
@@ -30,13 +47,12 @@ function App() {
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  // Reset and Activate function
   const handleActivate = async () => {
-    handleReset();
-    await sleep(500);
+    setAlgoActions([]); // Clear previous actions
+    setHighlighted([]); // Clear highlighted elements
 
     if (droppedItem === 'TwoSum') {
-      const solution = await runTwoSum(array, target);
+      const solution = await runTwoSum(newArray, target);
       if (solution.length > 0) {
         setResult(
           <span className="success">Success! Indices: {solution[0]} and {solution[1]}</span>
@@ -63,7 +79,7 @@ function App() {
         setHighlighted([map[complement], i]);
         setAlgoActions((prev) => [
           ...prev,
-          `Found complement: ${nums[map[complement]]} and ${nums[i]}`
+          `Found complement: ${nums[map[complement]]} and ${nums[i]}.`
         ]);
         await sleep(500);
         return [map[complement], i];
@@ -76,7 +92,9 @@ function App() {
   };
 
   const handleReset = () => {
-    setArray(initialArray);
+    const { newArray, target } = generateArrayWithValidTarget();
+    setNewArray(newArray);
+    setTarget(target);
     setResult('');
     setDroppedItem(null);
     setHighlighted([]);
@@ -111,7 +129,7 @@ function App() {
 
           {/* Visual Array at the Top */}
           <div className="array-container">
-            {array.map((num, index) => (
+            {newArray.map((num, index) => (
               <div
                 className={`array-square ${highlighted.includes(index) ? 'highlight' : ''}`}
                 key={index}
@@ -119,6 +137,7 @@ function App() {
                 {num}
               </div>
             ))}
+            <span className="refresh-icon" onClick={handleReset}>🔄</span>
           </div>
 
           {/* Blank Box for Dropping Ability */}
