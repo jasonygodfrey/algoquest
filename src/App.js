@@ -169,6 +169,16 @@ function App() {
             </div>
           </div>
 
+                    {/* Action Buttons */}
+                    {droppedItem && (
+            <div className="action-buttons">
+              <button className="activate-button" onClick={handleActivate}>
+                Activate
+              </button>
+
+            </div>
+          )}
+
           {/* Visual representation of algorithm actions */}
           <div className="algo-actions">
             <h4>Algorithm Actions:</h4>
@@ -179,23 +189,16 @@ function App() {
             </ul>
           </div>
 
-          {/* Action Buttons */}
-          {droppedItem && (
-            <div className="action-buttons">
-              <button className="activate-button" onClick={handleActivate}>
-                Activate
-              </button>
-              <button className="reset-button" onClick={handleReset}>
-                Reset Current Level
-              </button>
-            </div>
-          )}
+
 
           {/* Result Display */}
           {result && <p className="result">{result}</p>}
 
           {/* Button to go back to level selection */}
           <div className="navigation-buttons">
+          <button className="reset-button" onClick={handleReset}>
+                Reset Current Level
+              </button>
             <button className="back-button" onClick={() => setView('home')}>
               Back to Level Selection
             </button>
