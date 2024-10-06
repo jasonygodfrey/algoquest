@@ -1,0 +1,187 @@
+.App {
+  text-align: center;
+  background-color: #1b1b2f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-header {
+  color: #e94560;
+}
+
+.title {
+  font-size: 3rem;
+  font-family: 'Trebuchet MS', sans-serif;
+  margin-bottom: 2rem;
+}
+
+.button-container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.level-button {
+  background-color: #0f3460;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.level-button:hover {
+  background-color: #162447;
+  transform: scale(1.1);
+}
+
+/* TwoSum Game Styles */
+.game-title {
+  font-size: 2.5rem;
+  color: #e94560;
+  margin-bottom: 10px;
+}
+
+.challenge-description {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.two-sum-game {
+  color: #e94560;
+}
+
+.array-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.array-square {
+  background-color: #0f3460;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  transition: background-color 0.5s;
+}
+
+.array-square.highlight {
+  background-color: #e94560;
+}
+
+.drop-zone-container {
+  display: flex;
+  justify-content: center;
+}
+
+.drop-zone {
+  background-color: #162447;
+  border: 2px dashed #e94560;
+  width: 300px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.draggable-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.draggable-item {
+  background-color: #0f3460;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: grab;
+}
+
+.algo-actions {
+  margin-top: 20px;
+  color: #fff;
+}
+
+.algo-actions h4 {
+  margin-bottom: 10px;
+}
+
+.algo-actions ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.algo-actions li {
+  background-color: #0f3460;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.activate-button,
+.reset-button {
+  background-color: #e94560;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.result .error {
+  color: red;
+}
+
+.result .success {
+  color: green;
+  animation: dopamine 0.7s ease-in-out;
+}
+
+@keyframes dopamine {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.back-button {
+  background-color: #162447;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
