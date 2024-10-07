@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [view, setView] = useState('home');
   const [draggedItem, setDraggedItem] = useState(null);
-  const [droppedItem, setDroppedItem] = useState(null);
+  const [droppedCode, setDroppedCode] = useState('');
   const [result, setResult] = useState('');
   const [arrayData, setArrayData] = useState(generateArrayWithValidTarget());
   const [highlighted, setHighlighted] = useState([]);
@@ -12,6 +12,17 @@ function App() {
   const [newArray, setNewArray] = useState(arrayData.newArray);
   const [target, setTarget] = useState(arrayData.target);
   const [showTwoSumCode, setShowTwoSumCode] = useState(false); // Toggle state for showing TwoSum code
+
+  const twoSumCode = `
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        map = {}
+        for i, num in enumerate(nums):
+            complement = target - num
+            if complement in map:
+                return [map[complement], i]
+            map[num] = i
+        return []`;
 
   // Function to generate array with valid target
   function generateArrayWithValidTarget() {
@@ -37,37 +48,46 @@ function App() {
   };
 
   const handleDragStart = (item) => {
-    setDraggedItem(item);
+    if (item === 'TwoSum') {
+      setDraggedItem(twoSumCode);
+    }
   };
 
   const handleDrop = () => {
     if (draggedItem) {
-      setDroppedItem(draggedItem);
+      setDroppedCode(draggedItem);
+      setDraggedItem(null);
     }
+  };
+
+  const handleCodeChange = (e) => {
+    setDroppedCode(e.target.value);
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const handleActivate = async () => {
+  const handleRunCode = async () => {
     setAlgoActions([]); // Clear previous actions
     setHighlighted([]); // Clear highlighted elements
     setResult(''); // Clear previous result
 
-    if (droppedItem === 'TwoSum') {
-      const solution = await runTwoSum(newArray, target);
-      if (solution.length > 0) {
-        setResult(
-          <span className="success">Success! Indices: {solution[0]} and {solution[1]}</span>
-        );
-      } else {
-        setResult(<span className="error">No solution found. Try again!</span>);
-      }
-    } else if (!droppedItem) {
-      setResult(<span className="error">Please drop an ability before activating.</span>);
+    // Check for specific content to determine which algorithm to run
+    if (droppedCode.trim() === twoSumCode.trim()) {
+        const solution = await runTwoSum(newArray, target);
+        if (solution.length > 0) {
+            setResult(
+                <span className="success">Success! Indices: {solution[0]} and {solution[1]}</span>
+            );
+        } else {
+            setResult(<span className="error">No solution found. Try again!</span>);
+        }
+    } else if (!droppedCode.trim()) {
+        setResult(<span className="error">Please enter or drop a valid code snippet to run.</span>);
     } else {
-      setResult(<span className="error">This ability cannot solve this problem.</span>);
+        setResult(<span className="error">This code cannot solve this problem.</span>);
     }
-  };
+};
+
 
   const runTwoSum = async (nums, target) => {
     const map = {};
@@ -98,7 +118,7 @@ function App() {
     setNewArray(newArray);
     setTarget(target);
     setResult('');
-    setDroppedItem(null);
+    setDroppedCode('');
     setHighlighted([]);
     setAlgoActions([]);
   };
@@ -154,15 +174,16 @@ function App() {
               </pre>
             </div>
 
-            {/* Blank Box for Dropping Ability */}
+            {/* Editable Drop Zone */}
             <div className="drop-zone-container">
-              <div
+              <textarea
                 className="drop-zone"
+                value={droppedCode}
+                onChange={handleCodeChange}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
-              >
-                {droppedItem ? `Dropped: ${droppedItem}` : 'Drop your ability here'}
-              </div>
+                placeholder="Drop your code here"
+              />
             </div>
           </div>
 
@@ -175,7 +196,7 @@ function App() {
               <button
                 className="expand-button"
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent drag event
+                  e.stopPropagation();
                   setShowTwoSumCode(!showTwoSumCode);
                 }}
               >
@@ -185,16 +206,7 @@ function App() {
               {/* TwoSum Code Block */}
               {showTwoSumCode && (
                 <div className="two-sum-code">
-                  <pre>
-{`def twoSum(nums, target):
-    map = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in map:
-            return [map[complement], i]
-        map[num] = i
-    return []`}
-                  </pre>
+                  <pre>{twoSumCode}</pre>
                 </div>
               )}
             </div>
@@ -207,11 +219,11 @@ function App() {
             </div>
           </div>
 
-          {/* Activate Button */}
-          {droppedItem && (
+          {/* Run Code Button */}
+          {droppedCode && (
             <div className="action-buttons">
-              <button className="activate-button" onClick={handleActivate}>
-                Activate
+              <button className="activate-button" onClick={handleRunCode}>
+                Run Code
               </button>
             </div>
           )}
